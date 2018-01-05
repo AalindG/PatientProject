@@ -1,0 +1,169 @@
+<!-- Form -->
+<div>
+  <form [formGroup]="updateForm" (ngSubmit)="updatePatient(updateForm.value)" method="POST">
+      <div class="form-container">
+          <legend class="heading">Update Patient</legend>  
+          <input type="hidden" formControlName="id">
+          <div class="row">
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">First Name</label>
+                  <input class="form-control col-md-2" type="text" formControlName="fname">
+              <!-- Validation for Name label -->
+              <div class="alert pull-left" *ngIf="!updateForm.controls['fname'].valid &&  updateForm.controls['fname'].touched">{{ titleAlert }}</div>
+              <div class="alert pull-left" *ngIf="!updateForm.controls['fname'].valid && (updateForm.controls['fname'].dirty)">Can't contain Numbers</div>
+              </div>
+  
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Middle Name</label>
+                  <input class="form-control col-md-2" type="text" formControlName="mname">
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['mname'].valid && (updateForm.controls['mname'].dirty)">Can't contain Numbers</div>
+              </div>
+
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Last Name</label>
+                  <input class="form-control col-md-2" type="text" formControlName="lname">
+                  <!-- Validation for Name label -->
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['lname'].valid &&  updateForm.controls['lname'].touched">{{ titleAlert }}</div>
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['lname'].valid && (updateForm.controls['lname'].dirty)">Can't contain Numbers</div>
+              </div>
+          </div>
+          
+          <div class="row">
+              <div class="form-group col-md-2 x4">
+                  <label class="pull-left">SSN</label>
+                  <input class="form-control col-md-2" type="text" formControlName="ssn">
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['ssn'].valid && (updateForm.controls['ssn'].dirty || updateForm.controls['ssn'].touched)">SSN should 10 digits, Only numbers allowed</div>
+              </div>
+  
+              <div class="form-group col-md-2 x4">
+                  <label class="pull-left">DoB</label>
+                  <input class="form-control date col-md-2" type="date" formControlName="dob" [max]="dateToday">
+                  <!-- Validation for label -->
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['dob'].valid && updateForm.controls['dob'].touched">{{ titleAlert }}</div>
+              </div> 
+
+              <div class="form-group col-md-2 x4">
+                  <label class="pull-left">Gender</label> 
+                  <select class="form-control col-md-2" formControlName="gender">
+                      <option [value]="gender.attribute_value"  *ngFor="let gender of genderArray">
+                          {{ gender.attribute_value }}
+                      </option>
+                  </select>
+                  <!-- <input class="form-control col-md-2" type="select" formControlName="gender"> -->
+                  <!-- Validation for label -->
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['gender'].valid && updateForm.controls['gender'].touched">{{ titleAlert }}</div>
+              </div>
+
+              <div class="form-group col-md-2 x4">
+                  <label class="pull-left">Marital Status</label>
+                  <select class="form-control col-md-2" formControlName="mstatus">
+                      <option [value]="status.attribute_value"  *ngFor="let status of maritalStatusArray">
+                          {{ status.attribute_value }}
+                      </option>
+                  </select>
+                  <!-- Validation for label -->
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['mstatus'].valid && updateForm.controls['mstatus'].touched">{{ titleAlert }}</div>
+                </div>
+              </div>
+              
+              <legend class="heading">Contact Details</legend>
+              <!-- Address Bars -->
+              <div class="row">
+                <div class="form-group col-md-11 text-box">
+                  <label class="pull-left">Address1</label>
+                  <input class="form-control address" formControlName="address1">
+                </div>
+                
+                <div class="form-group col-md-11 text-box">
+                  <label class="pull-left">Address2</label>
+                  <input class="form-control address" formControlName="address2">
+                </div>
+              </div>
+              
+              
+              <div class="row">
+                <div class="form-group col-md-2 x4">
+                  <label class="pull-left">City</label>
+                  <input list="hosting-plan" formControlName="city" class="form-control col-md-2" type="text">
+                  
+                  <datalist id="hosting-plan">
+                    <option [value]='city' *ngFor="let city of cityArray" >{{city}}</option>
+                  </datalist>
+                </div>
+                
+                <div class="form-group col-md-2 x4">
+                      <label class="pull-left">State</label>
+                      <input list="hosting-plan1" formControlName="state" class="form-control col-md-2" type="text">
+
+                      <datalist id="hosting-plan1">
+                          <option [value]='state' *ngFor="let state of stateArray" >{{state}}</option>
+                      </datalist>
+                  </div>
+
+                  <div class="form-group col-md-2 x4">
+                      <label class="pull-left">Country</label>
+                      <input list="hosting-plan2" formControlName="country" class="form-control col-md-2" type="text">
+
+                      <datalist id="hosting-plan2">
+                          <option [value]='country' *ngFor="let country of countryArray" >{{country}}</option>
+                      </datalist>
+                  </div>
+      
+                  <div class="form-group col-md-2 x4">
+                      <label class="pull-left">Zip Code</label>
+                      <input class="form-control col-md-2" type="text" formControlName="zip">
+                      <div class="alert pull-left" *ngIf="!updateForm.controls['zip'].valid && (updateForm.controls['zip'].touched || updateForm.controls['zip'].dirty)">{{ titleAlert }}</div>
+
+                  </div>
+              </div>
+
+          <div class="row">
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Email</label>
+                  <input class="form-control col-md-2" type="text" formControlName="email">
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['email'].valid && updateForm.controls['email'].touched">Invalid or empty email</div>
+              </div>
+  
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Phone</label>
+                  <input class="form-control col-md-2" type="text" formControlName="phone">
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['phone'].valid && (updateForm.controls['phone'].touched || updateForm.controls['phone'].dirty)">{{ numberAlert }}</div>
+              </div>
+
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Fax</label>
+                  <input class="form-control col-md-2" type="text" formControlName="fax">
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['fax'].valid && (updateForm.controls['fax'].touched || updateForm.controls['fax'].dirty)">{{ numberAlert }}</div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Username</label>
+                  <input class="form-control col-md-2" type="text" formControlName="username" disabled=true>
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['username'].valid && updateForm.controls['username'].touched">{{ titleAlert }}</div>
+              </div>
+  
+              <div class="form-group col-md-3 x3">
+                  <label class="pull-left">Password</label>
+                  <input class="form-control col-md-2" type="password" formControlName="password">
+                  <div class="alert pull-left" *ngIf="!updateForm.controls['password'].valid && updateForm.controls['password'].touched">You must specify a password that's at least 8 characters.</div>
+              </div>
+
+              <div class="form-group col-md-3 x3">
+                    <!-- <form action="/upload/picture" method="POST" enctype="multipart/form-data"> -->
+                        <label class="pull-left">Picture</label>
+                        <input class="form-control col-md-2" type="file" name="picture" ng2FileSelect [uploader]="uploader" accept="image/*" disabled>
+                        <!-- <input class="btn btn-primary" type="submit" value="submit" 
+                                (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">  -->
+                    <!-- </form> -->
+                </div>
+
+          </div>
+
+            <input type="submit" class="btn btn-primary col-lg-offset-1 col-lg-4" style="margin-top: 20px;margin-bottom: 50px" value="Submit Form" [disabled]="!updateForm.dirty && !updateForm.valid" onclick="window.location.reload()">
+            <input type="button" class="btn btn-debug col-lg-offset-1 col-lg-4" style="margin-top: 20px;margin-bottom: 50px" value="Submit Form" routerLink="/">
+            <br>
+      </div>
+  </form>
+</div>

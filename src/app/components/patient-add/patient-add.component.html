@@ -1,0 +1,232 @@
+<!-- <form action="/patient/add" method="POST" role="form">
+    <legend>Add a new Patient</legend>
+
+    <div class="row">
+        <div class="form-group col-md-offset-1 col-md-3">
+            <label for="" class="pull-left">First Name</label>
+            <input type="text" class="form-control" id="" placeholder="Input field">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="" class="pull-left">Middle Name</label>
+            <input type="text" class="form-control" id="" placeholder="Input field">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="" class="pull-left">Last Name</label>
+            <input type="text" class="form-control" id="" placeholder="Input field">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-offset-1 col-md-3">
+            <label for="" class="pull-left">Date Of Birth</label>
+            <input type="date" class="form-control" id="" placeholder="Input field">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="" class="pull-left">Social Security Number</label>
+            <input type="text" class="form-control" id="" placeholder="Input field">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="" class="pull-left">Last Name</label>
+            <input type="text" class="form-control" id="" placeholder="Input field">
+        </div>
+    </div>
+    
+
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form> -->
+
+
+<!-- Reactive form Demo -->
+<div>
+    <form [formGroup]="rForm" (ngSubmit)="addPatient(rForm.value)" method="POST" novalidate>
+        <div class="form-container">
+            <legend class="heading">Add a new Patient</legend>  
+            <div class="row">
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">First Name</label>
+                    <input class="form-control col-md-2" type="text" formControlName="fname" ngModel>
+                <!-- Validation for Name label -->
+                    <div class="alert pull-left" *ngIf="!rForm.controls['fname'].valid &&  rForm.controls['fname'].touched">{{ titleAlert }}</div>
+                    <div class="alert pull-left" *ngIf="!rForm.controls['fname'].valid && (rForm.controls['fname'].dirty)">Can't contain Numbers</div>
+                </div>
+    
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Middle Name</label>
+                    <input class="form-control col-md-2" type="text" formControlName="mname">
+                    <div class="alert pull-left" *ngIf="!rForm.controls['mname'].valid && (rForm.controls['mname'].dirty)">Can't contain Numbers</div>
+                </div>
+            <!-- </div> -->
+
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Last Name</label>
+                    <input class="form-control col-md-2" type="text" formControlName="lname">
+                    <!-- Validation for Name label -->
+                    <div class="alert pull-left" *ngIf="!rForm.controls['lname'].valid &&  rForm.controls['lname'].touched">{{ titleAlert }}</div>
+                    <div class="alert pull-left" *ngIf="!rForm.controls['lname'].valid && (rForm.controls['lname'].dirty)">Can't contain Numbers</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-2 x4">
+                    <label class="pull-left">SSN</label>
+                    <input class="form-control col-md-2" type="text" formControlName="ssn">
+                    <div class="alert pull-left" *ngIf="!rForm.controls['ssn'].valid && (rForm.controls['ssn'].dirty || rForm.controls['ssn'].touched)">SSN should 10 digits, Only numbers allowed</div>
+                </div>
+    
+                <div class="form-group col-md-2 x4">
+                    <label class="pull-left">DoB</label>
+                    <input class="form-control date col-md-2" type="date" formControlName="dob" [max]="dateToday">
+                    <!-- Validation for label -->
+                    <div class="alert pull-left" *ngIf="!rForm.controls['dob'].valid && rForm.controls['dob'].touched">{{ titleAlert }}</div>
+                </div> 
+
+                <div class="form-group col-md-2 x4">
+                    <label class="pull-left">Gender</label> 
+                    <select class="form-control col-md-2" formControlName="gender">
+                        <option [value]="gender.attribute_value"  *ngFor="let gender of genderArray">
+                            {{ gender.attribute_value }}
+                        </option>
+                    </select>
+                    <!-- <input class="form-control col-md-2" type="select" formControlName="gender"> -->
+                    <!-- Validation for label -->
+                    <div class="alert pull-left" *ngIf="!rForm.controls['gender'].valid && rForm.controls['gender'].touched">{{ titleAlert }}</div>
+                </div>
+
+                <div class="form-group col-md-2 x4">
+                    <label class="pull-left">Marital Status</label>
+                    <select class="form-control col-md-2" formControlName="mstatus">
+                        <option [value]="status.attribute_value"  *ngFor="let status of maritalStatusArray">
+                            {{ status.attribute_value }}
+                        </option>
+                    </select>
+                    <!-- <input class="form-control col-md-2" type="text" formControlName="mstatus"> -->
+                    <!-- Validation for label -->
+                    <div class="alert pull-left" *ngIf="!rForm.controls['mstatus'].valid && rForm.controls['mstatus'].touched">{{ titleAlert }}</div>
+                </div>
+            </div>
+            
+            <legend class="heading">Contact Details</legend>
+            <!-- Address Bars -->
+            <div class="row">
+                <div class="form-group col-md-11 text-box">
+                    <label class="pull-left">Address1</label>
+                    <input class="form-control address" formControlName="address1">
+                </div>
+
+                <div class="form-group col-md-11 text-box">
+                    <label class="pull-left">Address2</label>
+                    <input class="form-control address" formControlName="address2">
+                </div>
+            </div>
+
+            
+            <div class="row">
+                    <div class="form-group col-md-2 x4">
+                        <label class="pull-left">City</label>
+                        <input list="hosting-plan" formControlName="city" class="form-control col-md-2" type="text">
+ 
+                        <datalist id="hosting-plan">
+                            <option [value]='city' *ngFor="let city of cityArray" >{{city}}</option>
+                        </datalist>
+                    </div>
+                    <div class="form-group col-md-2 x4">
+                        <label class="pull-left">State</label>
+                        <input list="hosting-plan1" formControlName="state" class="form-control col-md-2" type="text">
+ 
+                        <datalist id="hosting-plan1">
+                            <option [value]='state' *ngFor="let state of stateArray" >{{state}}</option>
+                        </datalist>
+                        <!-- <input class="form-control col-md-2" type="text" formControlName="city"> -->
+                    </div>
+                    <div class="form-group col-md-2 x4">
+                        <label class="pull-left">Country</label>
+                        <input list="hosting-plan2" formControlName="country" class="form-control col-md-2" type="text">
+ 
+                        <datalist id="hosting-plan2">
+                            <option [value]='country' *ngFor="let country of countryArray" >{{country}}</option>
+                        </datalist>
+                    </div>
+        
+    
+                    <div class="form-group col-md-2 x4">
+                        <label class="pull-left">Zip Code</label>
+                        <input class="form-control col-md-2" type="text" formControlName="zip">
+                        <div class="alert pull-left" *ngIf="!rForm.controls['zip'].valid && (rForm.controls['zip'].touched || rForm.controls['zip'].dirty)">{{ titleAlert }}</div>
+                    </div>
+                </div>
+
+            <div class="row">
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Email</label>
+                    <input class="form-control col-md-2" type="text" formControlName="email">
+                    <div class="alert pull-left" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">Invalid or empty email</div>
+                </div>
+    
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Phone</label>
+                    <input class="form-control col-md-2" type="text" formControlName="phone">
+                    <div class="alert pull-left" *ngIf="!rForm.controls['phone'].valid && (rForm.controls['phone'].touched || rForm.controls['phone'].dirty)">{{ numberAlert }}</div>
+                </div>
+
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Fax</label>
+                    <input class="form-control col-md-2" type="text" formControlName="fax">
+                    <div class="alert pull-left" *ngIf="!rForm.controls['fax'].valid && (rForm.controls['fax'].touched || rForm.controls['fax'].dirty)">{{ numberAlert }}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Username</label>
+                    <input class="form-control col-md-2" type="text" formControlName="username">
+                <!-- Validation for Name label -->
+                    <div class="alert pull-left" 
+                        *ngIf="!rForm.controls['username'].valid && (rForm.controls['username'].dirty || rForm.controls['username'].touched)">
+                        <span *ngIf="rForm.controls['username'].errors['unique']">Username already exists. Enter a new one</span>
+                        <span *ngIf="rForm.controls['username'].errors['required']">{{ titleAlert }}</span>
+                        
+                    </div>
+                    <!-- <div class="alert pull-left" *ngIf="">{{ messageExistence }}</div> -->
+                </div>
+    
+                <div class="form-group col-md-3 x3">
+                    <label class="pull-left">Password</label>
+                    <input class="form-control col-md-2" type="password" formControlName="password">
+                    <div class="alert pull-left" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">specify a password that's at least 8 characters.</div>
+                </div>
+                
+                <div class="form-group col-md-3 x3">
+                    <!-- <form action="/upload/picture" method="POST" enctype="multipart/form-data"> -->
+                        <label class="pull-left">Picture</label>
+                        <input class="form-control col-md-2" type="file" name="picture" ng2FileSelect [uploader]="uploader" accept="image/*" disabled>
+                        <!-- <input class="btn btn-primary" type="submit" value="submit" 
+                                (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">  -->
+                    <!-- </form> -->
+                </div>
+
+                    <!-- <div class="form-group col-md-3 x3">
+                        <label class="pull-left">Photo</label>
+                        <input class="form-control col-md-2" type="file" name="myPicture" formControlName="photo">
+                    </div> -->
+
+            </div>
+
+              <input type="submit" class="btn btn-primary col-lg-6 col-md-push-3" style="margin-top: 20px;margin-bottom: 50px" value="Submit Form" [disabled]="!rForm.valid" onclick="window.location.reload()">
+              <br>
+        </div>
+    </form>
+  </div>
+  
+  <!-- <ng-template #forminfo>
+    <div class="form-container">
+      <div class="row columns">
+          <h1>{{ fname }}</h1>
+  
+          <p>{{ address1 }}</p>
+      </div>
+    </div>
+  </ng-template> -->
+
+

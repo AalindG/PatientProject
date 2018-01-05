@@ -1,0 +1,62 @@
+<div>
+        <div class="panel panel-default">
+                <div class="panel-body" style="height:0.7em;">
+                    <a href="#add"><button type="button" class="btn btn-primary btn-sm pull-right">Add Patient<span class="glyphicon glyphicon-plus"></span></button></a>
+                        <div class="form-group pull-left search">
+                            <input type="text" placeholder="Search" name="search" [(ngModel)]="filter" class="form-control">
+                        </div>
+                        <span class="glyphicon glyphicon-search"></span>
+                </div>
+              
+                <!-- Table -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th  scope="col" (click)="sort('patient_id')">PUID
+                                <span class="glyphicon" *ngIf="key =='patient_id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('name')">Name
+                                <span class="glyphicon" *ngIf="key =='name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('ssn')">SSN#
+                                <span class="glyphicon nope" *ngIf="key =='ssn'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('dob')">DOB
+                                <span class="glyphicon nope" *ngIf="key =='dob'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('gender')">Gender
+                                <span class="glyphicon nope" *ngIf="key =='gender'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('email')">Email
+                                <span class="glyphicon" *ngIf="key =='email'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('marital_status')">Marital Status
+                                <span class="glyphicon nope" *ngIf="key =='marital_status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('city')">City
+                                <span class="glyphicon" *ngIf="key =='city'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th (click)="sort('phone')">Phone
+                                <span class="glyphicon" *ngIf="key =='phone'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                            </th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>    
+                        <tr *ngFor="let patient of patients | orderBy: key : reverse | filter: filter | paginate: { itemsPerPage: 10, currentPage: p }">
+                            <td data-label="PUID">{{ patient.patient_id }}</td>
+                            <td data-label="Name"> {{patient.name}} {{patient.lname}} </td>
+                            <td data-label="SSN"> {{patient.ssn}} </td>
+                            <td data-label="DOB"> {{patient.dob | date: 'dd/MM/yyyy'}} </td>
+                            <td data-label="Gender"> {{patient.gender}} </td>
+                            <td data-label="Email"> {{patient.email}} </td>
+                            <td data-label="Marital Status"> {{patient.marital_status}} </td>
+                            <td data-label="City"> {{patient.city}} </td>
+                            <td data-label="Phone"> {{patient.phone}} </td>
+                            <td data-label="Edit"><button class="btn btn-default buttonInv" [routerLink]="['/update', patient.patient_id]"><span class="glyphicon glyphicon-edit" ></span></button></td>
+                            <td class="last" data-label="Delete"><button class="btn btn-default buttonInv" (click)="removePatient(patient)" onclick="window.location.reload()"><span class="glyphicon glyphicon-trash" ></span></button></td>
+                        </tr>
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+</div>

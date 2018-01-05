@@ -1,0 +1,93 @@
+.panel {
+    overflow: auto;
+}
+span:hover, th {
+    cursor: pointer;
+}
+
+span{
+    padding: 5px;   
+    margin: 2px;
+}
+
+.search{
+    width: 40%;
+    margin-right: 5px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+.buttonInv{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    border-bottom: 1px solid #ddd;
+}
+.edit{
+    color: blue;
+}
+ table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+@media screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    table {
+        border: 0;
+    }
+    .buttonInv{
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        border: none;
+        cursor:pointer;
+        overflow: hidden;
+        outline:none;
+        border-bottom: 1px solid #ddd;
+    }
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    table tr, .last {
+        border-bottom: 5px solid rgb(180, 177, 177);
+        display: block;
+        margin-bottom: .625em;
+    }
+    table td {
+        border-bottom: 1px solid rgb(180, 177, 177);
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+    table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    table td:last-child {
+        border-bottom: 0;
+    }
+}
