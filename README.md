@@ -7,6 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - node/npm
 - @angular/cli
 - typings
+- nodemon
 
 ## Installation
 
@@ -18,12 +19,13 @@ Set up both the databases using the queries mentioned in `/server/config/queries
 
 ## Build & Serve
 
-Run the project using `npm start`.
+Run the project using `node server` or `nodemon`.
 
 ## Development server
 
-Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files(Angular only).
+Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source 'js' files.
+Also, in order to view changes for frontend, run `ng build --watch`.
 
 ## Testing API
 
-APIs can be tested on `http://localhost:3000/`
+APIs can be tested on `http://localhost:3000/` using Postman
