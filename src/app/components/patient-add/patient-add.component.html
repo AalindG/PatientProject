@@ -161,8 +161,8 @@
                 
                 <div class="form-group col-md-3 x3">
                         <label class="pull-left">Picture</label>
-                        <input class="form-control" type="file" name="picture" value="picture" ngModel  (change)="getFiles($event)" formControlName="photo">
-                </div>                
+                        <input class="form-control" type="file" name="picture" value="picture" ngModel  (change)="getFiles($event)" formControlName="photo" accept="image/x-png,image/gif,image/jpeg">
+                </div>
                 <img *ngIf="imagePath!=null" [src]="'data:image/png;base64,'+imagePath" alt="No preview available">
                 <img *ngIf="imagePath==null" src="http://www.cdn.innesvienna.net//Content/user-default.png" alt="No preview available">
                   </div>

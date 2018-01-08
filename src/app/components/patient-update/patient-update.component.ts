@@ -27,6 +27,7 @@ export class PatientUpdateComponent implements OnInit {
   imagePath: string;
   files: FileList;
   filestring: string;
+  fileExt:string;
   public dateToday = new Date().toJSON().split('T')[0]; // get only date from timestamp
 
 
@@ -131,11 +132,14 @@ export class PatientUpdateComponent implements OnInit {
 
   getFiles(event) {
     this.files = event.target.files;
-    console.log('File: ', this.files);
-    console.log('event: ', event);
-    const reader = new FileReader();
-    reader.onload = this._handleReaderLoaded.bind(this);
-    reader.readAsBinaryString(this.files[0]);
+    if (this.files[0]) {
+      this.fileExt = this.files[0].name.split('.')[this.files[0].name.split('.').length - 1];
+      console.log('ext: ', this.fileExt);
+      console.log(this.fileExt);
+      const reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(this.files[0]);
+    }
   }
 
   _handleReaderLoaded(readerEvt) {

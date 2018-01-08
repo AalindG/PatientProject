@@ -32,6 +32,7 @@ export class PatientAddComponent implements OnInit {
   imagePath: string;
   files: FileList;
   filestring: string;
+  fileExt: string = '';
 
   // File upload
   // public uploader: FileUploader = new FileUploader({url: 'http://localhost:3000/upload/picture'});
@@ -68,11 +69,13 @@ export class PatientAddComponent implements OnInit {
 
   getFiles(event) {
     this.files = event.target.files;
-    console.log('File: ', this.files);
-    console.log('event: ', event);
-    const reader = new FileReader();
-    reader.onload = this._handleReaderLoaded.bind(this);
-    reader.readAsBinaryString(this.files[0]);
+    if (this.files[0]) {
+      this.fileExt = this.files[0].name.split('.')[this.files[0].name.split('.').length -1];
+      console.log(this.fileExt);
+      const reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(this.files[0]);
+    }
   }
 
   _handleReaderLoaded(readerEvt) {
@@ -173,6 +176,19 @@ export class PatientAddComponent implements OnInit {
       }
       return null;
     }
+
+    // isImage(control: FormControl): {[s: string]: boolean} {
+    //   const imageExt = ['jpeg', 'jpg', 'png', 'bmp'];
+    //   // if (this.fileExt) {
+    //     console.log('ext: ', this.fileExt);
+    //     if(imageExt.includes(this.fileExt)){
+    //       console.log('here too');
+    //       return {'image': true};
+    //     // }
+    //   }
+    //   return null;
+    // }
+
   }
 
   interface Patient {
