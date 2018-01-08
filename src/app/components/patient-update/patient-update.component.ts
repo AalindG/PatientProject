@@ -24,6 +24,9 @@ export class PatientUpdateComponent implements OnInit {
   cityArray: string[] = [];
   stateArray: string[] = [];
   countryArray: string[] = [];
+  imagePath: string;
+  files: FileList;
+  filestring: string;
   public dateToday = new Date().toJSON().split('T')[0]; // get only date from timestamp
 
 
@@ -69,6 +72,9 @@ export class PatientUpdateComponent implements OnInit {
     .subscribe(patientFromDB => {
 
       const formattedDate = patientFromDB[0].dob.split('T')[0];
+      this.imagePath = patientFromDB[0].photo;
+
+      patientFromDB[0].photo = '';
 
       // Setting values from DB to update
       this.updateForm.setValue({
@@ -123,6 +129,21 @@ export class PatientUpdateComponent implements OnInit {
     });
   }
 
+  getFiles(event) {
+    this.files = event.target.files;
+    console.log('File: ', this.files);
+    console.log('event: ', event);
+    const reader = new FileReader();
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(this.files[0]);
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.target.result;
+    this.filestring = btoa(binaryString);  // Converting binary string data.
+    this.imagePath = this.filestring;
+  }
+
   updatePatient(post) {
     console.log('post: ', post);
     this.patientToUpdate = post;
@@ -154,6 +175,11 @@ export class PatientUpdateComponent implements OnInit {
       // console.log('postcountry: ', country);
       this.http.post('http://localhost:3000/discrete-data/add/country', JSON.stringify(country), {headers: headers})
         .subscribe(res => console.log('addcountry: ', res));
+    }
+
+    if (this.filestring) {
+      console.log('here');
+      post.photo = this.filestring;
     }
 
     // Update Patient

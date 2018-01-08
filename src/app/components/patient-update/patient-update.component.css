@@ -52,6 +52,17 @@ h1 {
     font-size: 2em;
 }
 
+img {
+    border-radius: 10%;
+    height: 150px;
+    width: 150px;
+    position: relative;
+    right: 335px;
+}
+.form-group.required .control-label:after { 
+    content:"*";
+    color:red;
+ }
 
 @keyframes alertAnim {
     from {

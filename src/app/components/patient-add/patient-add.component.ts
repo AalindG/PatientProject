@@ -29,9 +29,12 @@ export class PatientAddComponent implements OnInit {
   stateArray: string[] = [];
   countryArray: string[] = [];
   public dateToday = new Date().toJSON().split('T')[0]; // Get only date.
+  imagePath: string;
+  files: FileList;
+  filestring: string;
 
   // File upload
-  public uploader: FileUploader = new FileUploader({url: 'http://localhost:3000/upload/picture'});
+  // public uploader: FileUploader = new FileUploader({url: 'http://localhost:3000/upload/picture'});
 
 
   constructor(public http: Http, public patientService: PatientsService,
@@ -63,9 +66,24 @@ export class PatientAddComponent implements OnInit {
     });
   }
 
+  getFiles(event) {
+    this.files = event.target.files;
+    console.log('File: ', this.files);
+    console.log('event: ', event);
+    const reader = new FileReader();
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(this.files[0]);
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.target.result;
+    this.filestring = btoa(binaryString);  // Converting binary string data.
+    this.imagePath = this.filestring;
+  }
+
   addPatient(post) {
 
-    // console.log('post: ', post);
+    console.log('post: ', post.photo);
     this.patient = post;
     // console.log('patient: ', JSON.stringify(this.patient));
 
@@ -98,6 +116,8 @@ export class PatientAddComponent implements OnInit {
         .subscribe(res => console.log('addcountry: ', res));
     }
 
+    this.patient.photo = this.filestring;
+
     // Add Patient
     const url = 'http://localhost:3000/add/patient';
     this.http.post(url, JSON.stringify(this.patient), {headers: headers})
@@ -107,7 +127,6 @@ export class PatientAddComponent implements OnInit {
       this.router.navigate(['#/']);
 
     }
-
 
   ngOnInit() {
       // fetch data from discrete table
@@ -154,7 +173,6 @@ export class PatientAddComponent implements OnInit {
       }
       return null;
     }
-
   }
 
   interface Patient {

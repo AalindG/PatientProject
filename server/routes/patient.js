@@ -1,5 +1,7 @@
 const express = require('express'),
-    { Client } = require('pg');
+    { Client } = require('pg'),
+    multer = require('multer'),
+    path = require('path');
 
 const router = express.Router(),
     config = require('../config/database'),
@@ -14,11 +16,17 @@ client.connect(err=>{
     }
 });
 
+// Set The Storage Engine
+const storage = multer.diskStorage({
+    destination: './uploads/images/',
+    filename: function(req, file, cb){
+      cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+  });
+  
+  // Init Upload
+  var upload = multer({ storage : storage});
 
-// router.get('/', (req,res) => {
-//     console.log('Here');
-//     // res.send('in GET')
-// });
 
 // List patients
 router.get('/patients', (req,res) => {
@@ -33,6 +41,14 @@ router.get('/patients', (req,res) => {
 
 // Add a new patient
 router.post('/add/patient', (req,res) => {
+    // console.log('File: ',req.body.photo);
+
+    // var base64Data = req.body.photo.replace(/^data:image\/png;base64,/, "");
+
+        // require("fs").writeFile(`./uploads/images/${req.body.username}-${Date.now()}.png`, base64Data, 'base64', function(err) {
+        // console.log(err);
+        // });
+
     client.query(`INSERT into patient
                                 (NAME, LNAME, MNAME,SSN, DOB,GENDER,MARITAL_STATUS,ADDRESS1,ADDRESS2,CITY,STATE,COUNTRY,ZIP_CODE,EMAIL,PHONE,FAX,USER_NAME,PASSWORD,PHOTO,date_created,created_by)
                                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,MD5($18),$19,$20,$21)`,[req.body.fname, req.body.lname, req.body.mname,req.body.ssn,req.body.dob,req.body.gender,req.body.mstatus,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country,req.body.zip,req.body.email,req.body.phone,req.body.fax,req.body.username,req.body.password,req.body.photo,new Date(),'admin']);
@@ -47,6 +63,12 @@ router.get('/update/:id', (req,res) => {
         if (err) {
             console.log('Error fetching a patient data: ', err);
         }else{
+            if(result.rows[0].photo){
+                result.rows[0].photo = result.rows[0].photo.toString(); 
+                console.log('here');
+            }
+            // console.log(result.rows[0].photo);
+            
             res.json(result.rows);
         }
     })

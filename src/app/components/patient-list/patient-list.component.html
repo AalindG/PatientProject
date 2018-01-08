@@ -39,7 +39,7 @@
                             <th (click)="sort('phone')">Phone
                                 <span class="glyphicon" *ngIf="key =='phone'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                             </th>
-                            <th>Edit</th>
+                            <th style="text-align:center">Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>    
@@ -53,10 +53,42 @@
                             <td data-label="Marital Status"> {{patient.marital_status}} </td>
                             <td data-label="City"> {{patient.city}} </td>
                             <td data-label="Phone"> {{patient.phone}} </td>
-                            <td data-label="Edit"><button class="btn btn-default buttonInv" [routerLink]="['/update', patient.patient_id]"><span class="glyphicon glyphicon-edit" ></span></button></td>
+                            <td data-label="Edit"><button class="btn btn-default buttonInv" [routerLink]="['/update', patient.patient_id]">
+                                                    <span class="glyphicon glyphicon-edit" ></span>
+                                                    <span class="hover-text">Edit Patient</span>
+                                                </button>
+                                                <!-- <button class="btn btn-default buttonInv" type="button" 
+                                                  data-toggle="modal" data-target="#formModal" >
+                                                  <span class="glyphicon glyphicon-picture" ></span>
+                                                  <span class="hover-text">Add Picture</span>  
+                                                </button> -->
+                            </td>
                             <td class="last" data-label="Delete"><button class="btn btn-default buttonInv" (click)="removePatient(patient)" onclick="window.location.reload()"><span class="glyphicon glyphicon-trash" ></span></button></td>
                         </tr>
                 </table>
                 <pagination-controls (pageChange)="p = $event"></pagination-controls>
             </div>
 </div>
+
+<!--Form Modal to Add -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/upload/picture" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Upload Picture</h4>
+                    </div>
+                    <div class=" form-group modal-body">
+                            <form #form="ngForm" method="post" (ngSubmit)="logForm(form.value)" enctype="multipart/form-data">
+                                <input type="hidden" value="attr.data-id">
+                                <input class="form-control" type="file" name="picture" value="picture" ngModel  (change)="getFiles($event)">
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" type="submit" name="button">Upload</button>
+                                </div>
+                            </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
